@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.car_wash.mapper.CouponsTableMapper" >
+  <resultMap id="BaseResultMap" type="com.car_wash.pojo.CouponsTable" >
+    <id column="coupons_id" property="couponsId" jdbcType="INTEGER" />
+    <result column="coupons_type" property="couponsType" jdbcType="VARCHAR" />
+    <result column="coupons_price" property="couponsPrice" jdbcType="DECIMAL" />
+    <result column="coupons_money" property="couponsMoney" jdbcType="DECIMAL" />
+    <result column="coupons_failure_time" property="couponsFailureTime" jdbcType="TIMESTAMP" />
+    <result column="coupons_merchant" property="couponsMerchant" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    coupons_id, coupons_type, coupons_price, coupons_money, coupons_failure_time, coupons_merchant
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.car_wash.pojo.CouponsTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from coupons_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from coupons_table
+    where coupons_id = #{couponsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from coupons_table
+    where coupons_id = #{couponsId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.car_wash.pojo.CouponsTableExample" >
+    delete from coupons_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.car_wash.pojo.CouponsTable" >
+    insert into coupons_table (coupons_id, coupons_type, coupons_price, 
+      coupons_money, coupons_failure_time, coupons_merchant
+      )
+    values (#{couponsId,jdbcType=INTEGER}, #{couponsType,jdbcType=VARCHAR}, #{couponsPrice,jdbcType=DECIMAL}, 
+      #{couponsMoney,jdbcType=DECIMAL}, #{couponsFailureTime,jdbcType=TIMESTAMP}, #{couponsMerchant,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.car_wash.pojo.CouponsTable" >
+    insert into coupons_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="couponsId != null" >
+        coupons_id,
+      </if>
+      <if test="couponsType != null" >
+        coupons_type,
+      </if>
+      <if test="couponsPrice != null" >
+        coupons_price,
+      </if>
+      <if test="couponsMoney != null" >
+        coupons_money,
+      </if>
+      <if test="couponsFailureTime != null" >
+        coupons_failure_time,
+      </if>
+      <if test="couponsMerchant != null" >
+        coupons_merchant,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="couponsId != null" >
+        #{couponsId,jdbcType=INTEGER},
+      </if>
+      <if test="couponsType != null" >
+        #{couponsType,jdbcType=VARCHAR},
+      </if>
+      <if test="couponsPrice != null" >
+        #{couponsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="couponsMoney != null" >
+        #{couponsMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="couponsFailureTime != null" >
+        #{couponsFailureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponsMerchant != null" >
+        #{couponsMerchant,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.car_wash.pojo.CouponsTableExample" resultType="java.lang.Integer" >
+    select count(*) from coupons_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update coupons_table
+    <set >
+      <if test="record.couponsId != null" >
+        coupons_id = #{record.couponsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponsType != null" >
+        coupons_type = #{record.couponsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponsPrice != null" >
+        coupons_price = #{record.couponsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.couponsMoney != null" >
+        coupons_money = #{record.couponsMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.couponsFailureTime != null" >
+        coupons_failure_time = #{record.couponsFailureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.couponsMerchant != null" >
+        coupons_merchant = #{record.couponsMerchant,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update coupons_table
+    set coupons_id = #{record.couponsId,jdbcType=INTEGER},
+      coupons_type = #{record.couponsType,jdbcType=VARCHAR},
+      coupons_price = #{record.couponsPrice,jdbcType=DECIMAL},
+      coupons_money = #{record.couponsMoney,jdbcType=DECIMAL},
+      coupons_failure_time = #{record.couponsFailureTime,jdbcType=TIMESTAMP},
+      coupons_merchant = #{record.couponsMerchant,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.car_wash.pojo.CouponsTable" >
+    update coupons_table
+    <set >
+      <if test="couponsType != null" >
+        coupons_type = #{couponsType,jdbcType=VARCHAR},
+      </if>
+      <if test="couponsPrice != null" >
+        coupons_price = #{couponsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="couponsMoney != null" >
+        coupons_money = #{couponsMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="couponsFailureTime != null" >
+        coupons_failure_time = #{couponsFailureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponsMerchant != null" >
+        coupons_merchant = #{couponsMerchant,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where coupons_id = #{couponsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.car_wash.pojo.CouponsTable" >
+    update coupons_table
+    set coupons_type = #{couponsType,jdbcType=VARCHAR},
+      coupons_price = #{couponsPrice,jdbcType=DECIMAL},
+      coupons_money = #{couponsMoney,jdbcType=DECIMAL},
+      coupons_failure_time = #{couponsFailureTime,jdbcType=TIMESTAMP},
+      coupons_merchant = #{couponsMerchant,jdbcType=VARCHAR}
+    where coupons_id = #{couponsId,jdbcType=INTEGER}
+  </update>
+</mapper>

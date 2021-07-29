@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+
+
+
+        <!-- 从高到地低 OFF 、 FATAL 、 ERROR 、 WARN 、 INFO 、 DEBUG 、 TRACE 、 ALL -->
+        <!-- 日志输出规则  根据当前ROOT 级别，日志输出时，级别高于root默认的级别时  会输出 -->
+        <!-- 以下  每个配置的 filter 是过滤掉输出文件里面，会出现高级别文件，依然出现低级别的日志信息，通过filter 过滤只记录本级别的日志-->
+        <!-- 定义日志文件 输入位置 -->
+        <property name="logPath" value="D://logback/log-back.log"/>
+        <!-- 日志最大的历史 30天，这个参数要看你基于哪一种滚动策略【基于天，单位为天，月同理】本文件设置的多事基于天滚动策略 -->
+        <property name="maxHistory" value="30"/>
+        <!-- 日志输出格式【控制台】-->
+        <property name="logPatternConsoleLog"
+                  value="%date{yyyy-MM-dd HH:mm:ss} | %highlight(%-5.5p) | %boldYellow(%-80.80c) | %boldGreen(%-8.8L): %magenta(%-30M) : %boldBlue(%-20.20t) | %cyan(%m) %n"/>
+        <!--提供两个格式的输出，如果觉得上面的信息太过详细，可使用下面的格式-->
+        <!--    <property name="logPatternConsoleLog"-->
+        <!--              value="%highlight(%-5.5p) | %boldYellow(%-40.40c{40}) | %boldGreen(%-8.8L)| %cyan(%m) %n"/>-->
+
+        <property name="logPattern" value="%date{yyyy-MM-dd HH:mm:ss} | %p | %c | %M:%L | %m%n"/>
+        <!-- 日志输出编码格式 -->
+        <property name="logCharset" value="UTF-8"/>
+
+
+        <!--配置控制台的输出-->
+        <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${logPatternConsoleLog}</pattern>
+                <charset>${logCharset}</charset>
+            </encoder>
+        </appender>
+
+
+        <!--配置文件输出:error-->
+        <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- 过滤器，只记录ERROR级别的日志 -->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>ERROR</level>
+                <onMatch>ACCEPT</onMatch>       <!--如果是匹配，就接受这条规则【整个appender块】，FilterReply类（DENY，NEUTRAL，ACCEPT）-->
+                <onMismatch>DENY</onMismatch>   <!--如果没有匹配，就禁止-->
+                <!--<onMismatch>NEUTRAL</onMismatch>-->     <!--如果没有匹配，就忽略这条规则，看下一个【appender块规则是否接受】-->
+            </filter>
+            <encoder>
+                <pattern>${logPattern}</pattern>
+                <charset>${logCharset}</charset>
+            </encoder>
+            <!--滚动策略：每天一个日志文件-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--路径-->
+                <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/error.%d.log</fileNamePattern>
+                <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件假设设置每个月滚动，且<maxHistory>是30，
+                则只保存最近30天的文件，删除之前的旧文件。注意，删除旧文件是，那些为了归档而创建的目录也会被删除-->
+                <maxHistory>${maxHistory}</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+
+
+<!--    <appender name="fileWarnLog" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
+<!--            <charset>UTF-8</charset> &lt;!&ndash; 此处设置字符集 &ndash;&gt;-->
+<!--        </encoder>-->
+<!--        &lt;!&ndash; 日志记录器的滚动策略，按日期，按大小记录 &ndash;&gt;-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${log.path}/warn/log-warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy-->
+<!--                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            &lt;!&ndash;日志文件保留天数&ndash;&gt;-->
+<!--            <maxHistory>15</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        &lt;!&ndash; 此日志文件只记录warn级别的 &ndash;&gt;-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>warn</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
+<!--    </appender>-->
+
+
+    <appender name="fileWarnLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 过滤器，只记录ERROR级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>       <!--如果是匹配，就接受这条规则【整个appender块】，FilterReply类（DENY，NEUTRAL，ACCEPT）-->
+            <onMismatch>DENY</onMismatch>   <!--如果没有匹配，就禁止-->
+            <!--<onMismatch>NEUTRAL</onMismatch>-->     <!--如果没有匹配，就忽略这条规则，看下一个【appender块规则是否接受】-->
+        </filter>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+            <charset>${logCharset}</charset>
+        </encoder>
+        <!--滚动策略：每天一个日志文件-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/warn.%d.log</fileNamePattern>
+            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件假设设置每个月滚动，且<maxHistory>是30，
+            则只保存最近30天的文件，删除之前的旧文件。注意，删除旧文件是，那些为了归档而创建的目录也会被删除-->
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--配置文件输出：info-->
+        <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>INFO</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <encoder>
+                <pattern>${logPattern}</pattern>
+                <charset>${logCharset}</charset>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${logPath}/%d{yyyy-MM-dd}/info.%d.log</fileNamePattern>
+                <maxHistory>${maxHistory}</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <!--设置日志级别-->
+        <root level="info">
+            <appender-ref ref="consoleLog"/>        <!--控制台-->
+            <appender-ref ref="fileErrorLog"/>      <!--error文件-->
+            <appender-ref ref="fileInfoLog"/>       <!--info文件-->
+            <appender-ref ref="fileWarnLog"/>       <!--info文件-->
+        </root>
+
+
+
+
+
+
+
+
+
+    <logger name="com.car_wash.mapper" level="debug"></logger>
+
+
+
+</configuration>

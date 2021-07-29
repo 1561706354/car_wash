@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.car_wash.mapper.RecordTableMapper" >
+  <resultMap id="BaseResultMap" type="com.car_wash.pojo.RecordTable" >
+    <id column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="record_user" property="recordUser" jdbcType="VARCHAR" />
+    <result column="record_site" property="recordSite" jdbcType="VARCHAR" />
+    <result column="record_payment_method" property="recordPaymentMethod" jdbcType="VARCHAR" />
+    <result column="record_consumption_type" property="recordConsumptionType" jdbcType="VARCHAR" />
+    <result column="record_consumption_amount" property="recordConsumptionAmount" jdbcType="DECIMAL" />
+    <result column="record_payment_time" property="recordPaymentTime" jdbcType="TIMESTAMP" />
+    <result column="record_type" property="recordType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    record_id, record_user, record_site, record_payment_method, record_consumption_type, 
+    record_consumption_amount, record_payment_time, record_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.car_wash.pojo.RecordTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from record_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from record_table
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from record_table
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.car_wash.pojo.RecordTableExample" >
+    delete from record_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.car_wash.pojo.RecordTable" >
+    insert into record_table (record_id, record_user, record_site, 
+      record_payment_method, record_consumption_type, 
+      record_consumption_amount, record_payment_time, 
+      record_type)
+    values (#{recordId,jdbcType=INTEGER}, #{recordUser,jdbcType=VARCHAR}, #{recordSite,jdbcType=VARCHAR}, 
+      #{recordPaymentMethod,jdbcType=VARCHAR}, #{recordConsumptionType,jdbcType=VARCHAR}, 
+      #{recordConsumptionAmount,jdbcType=DECIMAL}, #{recordPaymentTime,jdbcType=TIMESTAMP}, 
+      #{recordType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.car_wash.pojo.RecordTable" >
+    insert into record_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="recordUser != null" >
+        record_user,
+      </if>
+      <if test="recordSite != null" >
+        record_site,
+      </if>
+      <if test="recordPaymentMethod != null" >
+        record_payment_method,
+      </if>
+      <if test="recordConsumptionType != null" >
+        record_consumption_type,
+      </if>
+      <if test="recordConsumptionAmount != null" >
+        record_consumption_amount,
+      </if>
+      <if test="recordPaymentTime != null" >
+        record_payment_time,
+      </if>
+      <if test="recordType != null" >
+        record_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordUser != null" >
+        #{recordUser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordSite != null" >
+        #{recordSite,jdbcType=VARCHAR},
+      </if>
+      <if test="recordPaymentMethod != null" >
+        #{recordPaymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="recordConsumptionType != null" >
+        #{recordConsumptionType,jdbcType=VARCHAR},
+      </if>
+      <if test="recordConsumptionAmount != null" >
+        #{recordConsumptionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="recordPaymentTime != null" >
+        #{recordPaymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordType != null" >
+        #{recordType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.car_wash.pojo.RecordTableExample" resultType="java.lang.Integer" >
+    select count(*) from record_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update record_table
+    <set >
+      <if test="record.recordId != null" >
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordUser != null" >
+        record_user = #{record.recordUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordSite != null" >
+        record_site = #{record.recordSite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordPaymentMethod != null" >
+        record_payment_method = #{record.recordPaymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordConsumptionType != null" >
+        record_consumption_type = #{record.recordConsumptionType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordConsumptionAmount != null" >
+        record_consumption_amount = #{record.recordConsumptionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.recordPaymentTime != null" >
+        record_payment_time = #{record.recordPaymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recordType != null" >
+        record_type = #{record.recordType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update record_table
+    set record_id = #{record.recordId,jdbcType=INTEGER},
+      record_user = #{record.recordUser,jdbcType=VARCHAR},
+      record_site = #{record.recordSite,jdbcType=VARCHAR},
+      record_payment_method = #{record.recordPaymentMethod,jdbcType=VARCHAR},
+      record_consumption_type = #{record.recordConsumptionType,jdbcType=VARCHAR},
+      record_consumption_amount = #{record.recordConsumptionAmount,jdbcType=DECIMAL},
+      record_payment_time = #{record.recordPaymentTime,jdbcType=TIMESTAMP},
+      record_type = #{record.recordType,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.car_wash.pojo.RecordTable" >
+    update record_table
+    <set >
+      <if test="recordUser != null" >
+        record_user = #{recordUser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordSite != null" >
+        record_site = #{recordSite,jdbcType=VARCHAR},
+      </if>
+      <if test="recordPaymentMethod != null" >
+        record_payment_method = #{recordPaymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="recordConsumptionType != null" >
+        record_consumption_type = #{recordConsumptionType,jdbcType=VARCHAR},
+      </if>
+      <if test="recordConsumptionAmount != null" >
+        record_consumption_amount = #{recordConsumptionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="recordPaymentTime != null" >
+        record_payment_time = #{recordPaymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordType != null" >
+        record_type = #{recordType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.car_wash.pojo.RecordTable" >
+    update record_table
+    set record_user = #{recordUser,jdbcType=VARCHAR},
+      record_site = #{recordSite,jdbcType=VARCHAR},
+      record_payment_method = #{recordPaymentMethod,jdbcType=VARCHAR},
+      record_consumption_type = #{recordConsumptionType,jdbcType=VARCHAR},
+      record_consumption_amount = #{recordConsumptionAmount,jdbcType=DECIMAL},
+      record_payment_time = #{recordPaymentTime,jdbcType=TIMESTAMP},
+      record_type = #{recordType,jdbcType=VARCHAR}
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+</mapper>
